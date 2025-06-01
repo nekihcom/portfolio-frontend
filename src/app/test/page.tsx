@@ -2,6 +2,7 @@ import { getBlogPosts } from "@/services/blog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
+import Link from "next/link";
 
 async function BlogList() {
   const posts = await getBlogPosts();
@@ -11,12 +12,17 @@ async function BlogList() {
       {posts.map((post, key) => (
         <Card key={key}>
           <CardHeader>
-            <CardTitle>{post.title}</CardTitle>
+            <Link href={`/test/${post.nid}`}>
+              <CardTitle className="hover:underline">{post.title}</CardTitle>
+            </Link>
           </CardHeader>
           <CardContent>
-            <div className="text-muted-foreground" dangerouslySetInnerHTML={{ __html: post.field_body }}></div>
             <p className="text-sm text-muted-foreground mt-2">
-              {new Date(post.created).toLocaleDateString("ja-JP")}
+              {post.created === post.changed ? (
+                <>作成日: {new Date(post.created).toLocaleDateString("ja-JP")}</>
+              ) : (
+                <>更新日: {new Date(post.changed).toLocaleDateString("ja-JP")}</>
+              )}
             </p>
           </CardContent>
         </Card>
