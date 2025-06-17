@@ -6,4 +6,5 @@ export interface BlogPost {
   view_node: string;
   field_body: string;
   field_category: string;
+  field_thumbnail: string;
 } 

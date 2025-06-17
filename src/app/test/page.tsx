@@ -3,7 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import Link from "next/link";
+import { BlogThumbnail } from "@/components/BlogThumbnail";
 
+// サーバーコンポーネント
 async function BlogList() {
   const posts = await getBlogPosts();
 
@@ -17,6 +19,9 @@ async function BlogList() {
             </Link>
           </CardHeader>
           <CardContent>
+            {post.field_thumbnail && (
+              <BlogThumbnail thumbnail={post.field_thumbnail} title={post.title} />
+            )}
             <p className="text-sm text-muted-foreground mt-2">
               {post.created === post.changed ? (
                 <>作成日: {new Date(post.created).toLocaleDateString("ja-JP")}</>
@@ -40,6 +45,7 @@ function BlogListSkeleton() {
             <Skeleton className="h-6 w-3/4" />
           </CardHeader>
           <CardContent>
+            <Skeleton className="h-48 w-full mb-4" />
             <Skeleton className="h-4 w-full mb-2" />
             <Skeleton className="h-4 w-2/3" />
           </CardContent>
